@@ -183,14 +183,16 @@ index dc1afd5c839d..745db92fb2c1 100644
  	[VM_SHARED | VM_EXEC | VM_WRITE]		= PAGE_SHARED_EXEC,
  	[VM_SHARED | VM_EXEC | VM_WRITE | VM_READ]	= PAGE_SHARED_EXEC
 diff --git a/arch/x86/pci/common.c b/arch/x86/pci/common.c
-index 63105b29fbf5..c389bc9a458b 100644
+index 63105b29fbf5..f38e2601531c 100644
 --- a/arch/x86/pci/common.c
 +++ b/arch/x86/pci/common.c
-@@ -57,14 +57,84 @@ int raw_pci_write(unsigned int domain, unsigned int bus, unsigned int devfn,
+@@ -57,14 +57,100 @@ int raw_pci_write(unsigned int domain, unsigned int bus, unsigned int devfn,
  	return -EINVAL;
  }
  
 +#ifdef CONFIG_X86_PS5
++static DEFINE_RAW_SPINLOCK(pci_lock);
++
 +static int sfc_read(unsigned int domain, unsigned int bus, unsigned int rid,
 +						int reg, int len, u32 *val)
 +{
@@ -242,13 +244,20 @@ index 63105b29fbf5..c389bc9a458b 100644
 +
  static int pci_read(struct pci_bus *bus, unsigned int devfn, int where, int size, u32 *value)
  {
++	int ret;
++	unsigned long flags;
++
 +#ifdef CONFIG_X86_PS5
 +	if (pci_ari_enabled(bus)) {
 +		u32 rid = 0;
++		raw_spin_lock_irqsave(&pci_lock, flags);
 +		raw_pci_read(pci_domain_nr(bus), bus->number, devfn, 0x150, 2, &rid);
 +		if (rid != 0 && rid != 0xffff) {
-+			return sfc_read(pci_domain_nr(bus), bus->number, rid, where, size, value);
++			ret = sfc_read(pci_domain_nr(bus), bus->number, rid, where, size, value);
++			raw_spin_unlock_irqrestore(&pci_lock, flags);
++			return ret;
 +		}
++		raw_spin_unlock_irqrestore(&pci_lock, flags);
 +	}
 +#endif
 +
@@ -258,13 +267,20 @@ index 63105b29fbf5..c389bc9a458b 100644
  
  static int pci_write(struct pci_bus *bus, unsigned int devfn, int where, int size, u32 value)
  {
++	int ret;
++	unsigned long flags;
++
 +#ifdef CONFIG_X86_PS5
 +	if (pci_ari_enabled(bus)) {
 +		u32 rid = 0;
++		raw_spin_lock_irqsave(&pci_lock, flags);
 +		raw_pci_read(pci_domain_nr(bus), bus->number, devfn, 0x150, 2, &rid);
 +		if (rid != 0 && rid != 0xffff) {
-+			return sfc_write(pci_domain_nr(bus), bus->number, rid, where, size, value);
++			ret = sfc_write(pci_domain_nr(bus), bus->number, rid, where, size, value);
++			raw_spin_unlock_irqrestore(&pci_lock, flags);
++			return ret;
 +		}
++		raw_spin_unlock_irqrestore(&pci_lock, flags);
 +	}
 +#endif
 +

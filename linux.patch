@@ -2501,14 +2501,15 @@ index 000000000000..ef5c9dcb43ef
 +MODULE_LICENSE("GPL");
 diff --git a/drivers/ps5/spcie.c b/drivers/ps5/spcie.c
 new file mode 100644
-index 000000000000..2dedc3b11a45
+index 000000000000..7f6fcaf9522d
 --- /dev/null
 +++ b/drivers/ps5/spcie.c
-@@ -0,0 +1,614 @@
+@@ -0,0 +1,654 @@
 +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 +
 +#include <linux/module.h>
 +#include <linux/miscdevice.h>
++#include <linux/input.h>
 +#include <linux/pci.h>
 +#include <linux/ps5.h>
 +#include <linux/dmi.h>
@@ -2548,6 +2549,7 @@ index 000000000000..2dedc3b11a45
 +struct spcie_icc_dev {
 +	struct pci_dev *pdev;
 +	struct spcie_dev *sdev;
++	struct input_dev *idev;
 +	struct mutex lock;
 +	wait_queue_head_t wq;
 +	void __iomem *icc_doorbell_base;
@@ -2896,12 +2898,25 @@ index 000000000000..2dedc3b11a45
 +}
 +EXPORT_SYMBOL(icc_fan_change_servo_pattern);
 +
++static void button_notification_handler(struct icc_msg *msg)
++{
++	if (msg->msg_type == 0x8010) { // power button down
++		input_report_key(icc_dev->idev, KEY_POWER, 1);
++		input_sync(icc_dev->idev);
++	} else if (msg->msg_type == 0x8011) { // power button up
++		input_report_key(icc_dev->idev, KEY_POWER, 0);
++		input_sync(icc_dev->idev);
++	}
++}
++
 +static int icc_notification_handler(u8 service_id, u8 *buf)
 +{
 +	struct icc_msg *msg = (struct icc_msg *)buf;
 +
 +	if (service_id == ICC_SERVICE_ID_HDMI) {
 +		hdmi_notification_handler(msg);
++	} else if (service_id == ICC_SERVICE_ID_BUTTON) {
++		button_notification_handler(msg);
 +	} else {
 +		pr_info("service id: %x\n", service_id);
 +		print_hex_dump(KERN_INFO, "event: ", DUMP_PREFIX_OFFSET, 16, 1,
@@ -2985,6 +3000,26 @@ index 000000000000..2dedc3b11a45
 +	.fops = &icc_fops,
 +};
 +
++static int spcie_power_button_init(struct spcie_icc_dev *icc_dev)
++{
++	icc_dev->idev = input_allocate_device();
++	if (!icc_dev->idev)
++		return -ENOMEM;
++
++	icc_dev->idev->name = "Power Button";
++	icc_dev->idev->phys = "pm/button/input0";
++	icc_dev->idev->id.bustype = BUS_HOST;
++	icc_dev->idev->dev.parent = NULL;
++	input_set_capability(icc_dev->idev, EV_KEY, KEY_POWER);
++
++	return input_register_device(icc_dev->idev);
++}
++
++static void spcie_power_button_remove(struct spcie_icc_dev *icc_dev)
++{
++	input_free_device(icc_dev->idev);
++}
++
 +static int spcie_icc_init(struct spcie_dev *sdev)
 +{
 +	int vector, ret;
@@ -3003,6 +3038,10 @@ index 000000000000..2dedc3b11a45
 +
 +	icc_dev->icc_doorbell_base = sdev->bar2 + ICC_DOORBELL_OFFSET;
 +	icc_dev->icc_base = sdev->bar4;
++
++	ret = spcie_power_button_init(icc_dev);
++	if (ret)
++		return ret;
 +
 +	/* Clear status */
 +	writel(ICC_SEND | ICC_ACK, icc_dev->icc_doorbell_base + ICC_REG_INTR_STATUS);
@@ -3049,6 +3088,7 @@ index 000000000000..2dedc3b11a45
 +
 +static int spcie_icc_remove(struct spcie_dev *sdev)
 +{
++	spcie_power_button_remove(sdev->icc_dev);
 +	misc_deregister(&icc_misc_device);
 +	return 0;
 +}

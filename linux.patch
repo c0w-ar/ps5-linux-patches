@@ -818,7 +818,7 @@ index e3a035c9fece..6eb67dd7b52c 100644
  	if (r)
  		return r;
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 2328c1aa0ead..8eb9c4a327d7 100644
+index 2328c1aa0ead..cf3820f2ca17 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 @@ -80,6 +80,10 @@
@@ -901,15 +901,23 @@ index 2328c1aa0ead..8eb9c4a327d7 100644
  		}
  	}
  
-@@ -11031,6 +11060,14 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
+@@ -11031,6 +11060,22 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
  			dc_stream_retain(dm_new_crtc_state->stream);
  			acrtc->dm_irq_params.stream = dm_new_crtc_state->stream;
  			manage_dm_interrupts(adev, acrtc, dm_new_crtc_state);
 +#ifdef CONFIG_X86_PS5
 +			if (dm_new_crtc_state->stream && dc_is_dp_signal(dm_new_crtc_state->stream->signal)) {
++				struct dc_stream_state *stream = dm_new_crtc_state->stream;
++				int channels = 0;
++
++				for (i = 0; i < stream->audio_info.mode_count; i++) {
++					if (stream->audio_info.modes[i].channel_count > channels)
++						channels = stream->audio_info.modes[i].channel_count;
++				}
++
 +				sceHdmiSetVideoConfig(&new_crtc_state->mode);
-+				sceHdmiSetAudioConfig();
 +				sceHdmiDeviceSetVideoMute(0);
++				sceHdmiSetAudioConfig(channels);
 +				sceHdmiSetAudioMute(0);
 +			}
 +#endif
@@ -1135,10 +1143,10 @@ index 000000000000..7acb030a4976
 +obj-y += spcie.o tpcie.o hdmi.o mp1.o
 diff --git a/drivers/ps5/hdmi.c b/drivers/ps5/hdmi.c
 new file mode 100644
-index 000000000000..043c9c051f35
+index 000000000000..564eb2581e7a
 --- /dev/null
 +++ b/drivers/ps5/hdmi.c
-@@ -0,0 +1,1064 @@
+@@ -0,0 +1,1073 @@
 +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 +
 +#include <linux/module.h>
@@ -1855,7 +1863,7 @@ index 000000000000..043c9c051f35
 +	setVideoAdditionalConfigFlava3(mode);
 +}
 +
-+static void setHdmiAudioConfigBasic(void)
++static void setHdmiAudioConfigBasic(int channels)
 +{
 +	i2c_init(2);
 +	i2c_begin_block();
@@ -1872,15 +1880,24 @@ index 000000000000..043c9c051f35
 +	i2c_mask(0x70af, 0x06, 0x06);
 +	i2c_mask(0x70b3, 0x02, 0x0f);
 +	i2c_mask(0x70ae, 0x80, 0xe0);
-+	i2c_mask(0x70ae, 0x05, 0x07);
++	i2c_mask(0x70ae, max(1, channels - 1), 0x07);
 +	i2c_mask(0x70ac, 0x01, 0x21);
 +	i2c_mask(0x70ab, 0x81, 0x89);
 +	i2c_mask(0x70a9, 0x08, 0x08);
 +	i2c_exec();
 +}
 +
-+static void setAudioConfigAdditional(void)
++static void setAudioConfigAdditional(int channels)
 +{
++	u8 val = 0x00;
++	switch (channels) {
++	case 3: val = 0x02; break;
++	case 4: val = 0x03; break;
++	case 5: val = 0x09; break;
++	case 6: val = 0x0b; break;
++	case 7: val = 0x11; break;
++	case 8: val = 0x13; break;
++	}
 +	i2c_init(2);
 +	i2c_mask(0x70b0, 0x00, 0xff);
 +	i2c_mask(0x70b1, 0x79, 0xff);
@@ -1894,7 +1911,7 @@ index 000000000000..043c9c051f35
 +	i2c_write(0x7011, 0xa2);
 +	i2c_end_block();
 +	i2c_waitset(0x10e7, 0xa2);
-+	i2c_mask(0x7267, 0x0b, 0xff);
++	i2c_mask(0x7267, val, 0xff);
 +	i2c_write(0x7204, 0x10);
 +	i2c_waitclear(0x7204, 0x10);
 +	i2c_write(0x10e7, 0xff);
@@ -1904,10 +1921,10 @@ index 000000000000..043c9c051f35
 +	i2c_exec();
 +}
 +
-+static void sceHdmiSetAudioConfigFlava3(void)
++static void sceHdmiSetAudioConfigFlava3(int channels)
 +{
-+	setHdmiAudioConfigBasic();
-+	setAudioConfigAdditional();
++	setHdmiAudioConfigBasic(channels);
++	setAudioConfigAdditional(channels);
 +}
 +
 +static void initVerde(void)
@@ -2018,7 +2035,7 @@ index 000000000000..043c9c051f35
 +	setHdmiBasicVideoConfigVerde(mode);
 +}
 +
-+static void setAudioConfigForVerde(void)
++static void setAudioConfigForVerde(int channels)
 +{
 +	i2c_init(2);
 +	i2c_waitclear(0x102, 0x80);
@@ -2049,9 +2066,9 @@ index 000000000000..043c9c051f35
 +	i2c_exec();
 +}
 +
-+static void sceHdmiSetAudioConfigVerde(void)
++static void sceHdmiSetAudioConfigVerde(int channels)
 +{
-+	setAudioConfigForVerde();
++	setAudioConfigForVerde(channels);
 +}
 +
 +void sceHdmiInitVideoConfig(void)
@@ -2089,12 +2106,12 @@ index 000000000000..043c9c051f35
 +}
 +EXPORT_SYMBOL(sceHdmiDeviceSetVideoMute);
 +
-+void sceHdmiSetAudioConfig(void)
++void sceHdmiSetAudioConfig(int channels)
 +{
 +	if (hdmi_ic_type == HDMI_IC_TYPE_FLAVA3) {
-+		sceHdmiSetAudioConfigFlava3();
++		sceHdmiSetAudioConfigFlava3(channels);
 +	} else {
-+		sceHdmiSetAudioConfigVerde();
++		sceHdmiSetAudioConfigVerde(channels);
 +	}
 +}
 +EXPORT_SYMBOL(sceHdmiSetAudioConfig);
@@ -3513,7 +3530,7 @@ index 927f8a8b7a1d..474f1207e2f3 100644
  extern void dmi_setup(void);
 diff --git a/include/linux/ps5.h b/include/linux/ps5.h
 new file mode 100644
-index 000000000000..9d72e9e63497
+index 000000000000..f1bd03bacd91
 --- /dev/null
 +++ b/include/linux/ps5.h
 @@ -0,0 +1,76 @@
@@ -3564,8 +3581,8 @@ index 000000000000..9d72e9e63497
 +void sceControlHdmiEvent(u8 enable);
 +void sceHdmiInitVideoConfig(void);
 +void sceHdmiSetVideoConfig(const struct drm_display_mode *mode);
++void sceHdmiSetAudioConfig(int channels);
 +void sceHdmiDeviceSetVideoMute(int mute);
-+void sceHdmiSetAudioConfig(void);
 +void sceHdmiSetAudioMute(int mute);
 +int getHdmiConfiguration(void);
 +int isHdmiEnabled(void);

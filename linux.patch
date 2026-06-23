@@ -1,5 +1,5 @@
 diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index f3f7cb01d69d..15d2e0de3bf6 100644
+index f3f7cb01d..15d2e0de3 100644
 --- a/arch/x86/Kconfig
 +++ b/arch/x86/Kconfig
 @@ -601,6 +601,14 @@ config X86_NUMACHIP
@@ -18,7 +18,7 @@ index f3f7cb01d69d..15d2e0de3bf6 100644
  	bool "ScaleMP vSMP"
  	select HYPERVISOR_GUEST
 diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
-index 86554de9a3f5..70b0eb8e32c9 100644
+index 86554de9a..70b0eb8e3 100644
 --- a/arch/x86/include/asm/msr-index.h
 +++ b/arch/x86/include/asm/msr-index.h
 @@ -26,6 +26,7 @@
@@ -38,7 +38,7 @@ index 86554de9a3f5..70b0eb8e32c9 100644
  
  /*
 diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
-index 2ec250ba467e..f4654b2e63d0 100644
+index 2ec250ba4..f4654b2e6 100644
 --- a/arch/x86/include/asm/pgtable_types.h
 +++ b/arch/x86/include/asm/pgtable_types.h
 @@ -21,8 +21,9 @@
@@ -78,7 +78,7 @@ index 2ec250ba467e..f4654b2e63d0 100644
  /*
   * Page tables needs to have Write=1 in order for any lower PTEs to be
 diff --git a/arch/x86/include/asm/setup.h b/arch/x86/include/asm/setup.h
-index 914eb32581c7..1199b0762d60 100644
+index 914eb3258..1199b0762 100644
 --- a/arch/x86/include/asm/setup.h
 +++ b/arch/x86/include/asm/setup.h
 @@ -69,6 +69,12 @@ extern void x86_ce4100_early_setup(void);
@@ -95,7 +95,7 @@ index 914eb32581c7..1199b0762d60 100644
  
  #ifndef _SETUP
 diff --git a/arch/x86/include/uapi/asm/bootparam.h b/arch/x86/include/uapi/asm/bootparam.h
-index dafbf581c515..791687363cbf 100644
+index dafbf581c..791687363 100644
 --- a/arch/x86/include/uapi/asm/bootparam.h
 +++ b/arch/x86/include/uapi/asm/bootparam.h
 @@ -207,6 +207,7 @@ enum x86_hardware_subarch {
@@ -107,7 +107,7 @@ index dafbf581c515..791687363cbf 100644
  };
  
 diff --git a/arch/x86/kernel/head64.c b/arch/x86/kernel/head64.c
-index fd28b53dbac5..569fc764d267 100644
+index fd28b53db..569fc764d 100644
 --- a/arch/x86/kernel/head64.c
 +++ b/arch/x86/kernel/head64.c
 @@ -303,6 +303,11 @@ void __init __noreturn x86_64_start_reservations(char *real_mode_data)
@@ -123,7 +123,7 @@ index fd28b53dbac5..569fc764d267 100644
  		break;
  	}
 diff --git a/arch/x86/kernel/i8253.c b/arch/x86/kernel/i8253.c
-index cb9852ad6098..83bb0cf9e40b 100644
+index cb9852ad6..83bb0cf9e 100644
 --- a/arch/x86/kernel/i8253.c
 +++ b/arch/x86/kernel/i8253.c
 @@ -31,6 +31,11 @@ struct clock_event_device *global_clock_event;
@@ -139,7 +139,7 @@ index cb9852ad6098..83bb0cf9e40b 100644
  		return true;
  
 diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 0550359ed798..297ac533e017 100644
+index 0550359ed..297ac533e 100644
 --- a/arch/x86/kvm/x86.c
 +++ b/arch/x86/kvm/x86.c
 @@ -114,7 +114,11 @@ EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_host);
@@ -155,7 +155,7 @@ index 0550359ed798..297ac533e017 100644
  static u64 __read_mostly efer_reserved_bits = ~((u64)EFER_SCE);
  #endif
 diff --git a/arch/x86/mm/pgprot.c b/arch/x86/mm/pgprot.c
-index dc1afd5c839d..745db92fb2c1 100644
+index dc1afd5c8..745db92fb 100644
 --- a/arch/x86/mm/pgprot.c
 +++ b/arch/x86/mm/pgprot.c
 @@ -10,7 +10,11 @@ static pgprot_t protection_map[16] __ro_after_init = {
@@ -183,7 +183,7 @@ index dc1afd5c839d..745db92fb2c1 100644
  	[VM_SHARED | VM_EXEC | VM_WRITE]		= PAGE_SHARED_EXEC,
  	[VM_SHARED | VM_EXEC | VM_WRITE | VM_READ]	= PAGE_SHARED_EXEC
 diff --git a/arch/x86/pci/common.c b/arch/x86/pci/common.c
-index 63105b29fbf5..f38e2601531c 100644
+index 63105b29f..f38e26015 100644
 --- a/arch/x86/pci/common.c
 +++ b/arch/x86/pci/common.c
 @@ -57,14 +57,100 @@ int raw_pci_write(unsigned int domain, unsigned int bus, unsigned int devfn,
@@ -288,7 +288,7 @@ index 63105b29fbf5..f38e2601531c 100644
  				  devfn, where, size, value);
  }
 diff --git a/arch/x86/pci/irq.c b/arch/x86/pci/irq.c
-index 0de436316a1d..dde625251c99 100644
+index 0de436316..dde625251 100644
 --- a/arch/x86/pci/irq.c
 +++ b/arch/x86/pci/irq.c
 @@ -1720,6 +1720,11 @@ static int pirq_enable_irq(struct pci_dev *dev)
@@ -316,7 +316,7 @@ index 0de436316a1d..dde625251c99 100644
  	    dev->irq_managed && dev->irq) {
  		mp_unmap_irq(dev->irq);
 diff --git a/arch/x86/platform/Makefile b/arch/x86/platform/Makefile
-index 3ed03a2552d0..40ffa1a2156a 100644
+index 3ed03a255..40ffa1a21 100644
 --- a/arch/x86/platform/Makefile
 +++ b/arch/x86/platform/Makefile
 @@ -9,6 +9,7 @@ obj-y	+= intel/
@@ -329,14 +329,14 @@ index 3ed03a2552d0..40ffa1a2156a 100644
  obj-y	+= uv/
 diff --git a/arch/x86/platform/ps5/Makefile b/arch/x86/platform/ps5/Makefile
 new file mode 100644
-index 000000000000..5263181876f8
+index 000000000..526318187
 --- /dev/null
 +++ b/arch/x86/platform/ps5/Makefile
 @@ -0,0 +1 @@
 +obj-$(CONFIG_X86_PS5) += ps5.o
 diff --git a/arch/x86/platform/ps5/ps5.c b/arch/x86/platform/ps5/ps5.c
 new file mode 100644
-index 000000000000..731fed163a83
+index 000000000..731fed163
 --- /dev/null
 +++ b/arch/x86/platform/ps5/ps5.c
 @@ -0,0 +1,51 @@
@@ -392,7 +392,7 @@ index 000000000000..731fed163a83
 +	legacy_pic = &null_legacy_pic;
 +}
 diff --git a/block/partitions/efi.c b/block/partitions/efi.c
-index 9865d59093fa..5ffe7fefeae6 100644
+index 9865d5909..5ffe7fefe 100644
 --- a/block/partitions/efi.c
 +++ b/block/partitions/efi.c
 @@ -90,6 +90,9 @@
@@ -459,7 +459,7 @@ index 9865d59093fa..5ffe7fefeae6 100644
  				 &pgpt, &pptes);
          if (good_pgpt)
 diff --git a/drivers/Makefile b/drivers/Makefile
-index 0841ea851847..02052a6cb226 100644
+index 0841ea851..02052a6cb 100644
 --- a/drivers/Makefile
 +++ b/drivers/Makefile
 @@ -198,3 +198,5 @@ obj-y				+= resctrl/
@@ -469,7 +469,7 @@ index 0841ea851847..02052a6cb226 100644
 +
 +obj-$(CONFIG_X86_PS5)		+= ps5/
 diff --git a/drivers/ata/Kconfig b/drivers/ata/Kconfig
-index fff305ec1e78..eb91eacbe159 100644
+index fff305ec1..eb91eacbe 100644
 --- a/drivers/ata/Kconfig
 +++ b/drivers/ata/Kconfig
 @@ -298,6 +298,18 @@ config AHCI_QORIQ
@@ -492,7 +492,7 @@ index fff305ec1e78..eb91eacbe159 100644
  	tristate "Freescale 3.0Gbps SATA support"
  	depends on FSL_SOC || COMPILE_TEST
 diff --git a/drivers/ata/Makefile b/drivers/ata/Makefile
-index 20e6645ab737..bc98a92325b7 100644
+index 20e6645ab..bc98a9232 100644
 --- a/drivers/ata/Makefile
 +++ b/drivers/ata/Makefile
 @@ -27,6 +27,8 @@ obj-$(CONFIG_AHCI_ST)		+= ahci_st.o libahci.o libahci_platform.o
@@ -506,7 +506,7 @@ index 20e6645ab737..bc98a92325b7 100644
  obj-$(CONFIG_PDC_ADMA)		+= pdc_adma.o
 diff --git a/drivers/ata/ahci_salina.c b/drivers/ata/ahci_salina.c
 new file mode 100644
-index 000000000000..c020194eb44a
+index 000000000..c020194eb
 --- /dev/null
 +++ b/drivers/ata/ahci_salina.c
 @@ -0,0 +1,340 @@
@@ -852,7 +852,7 @@ index 000000000000..c020194eb44a
 +MODULE_SOFTDEP("pre: libahci spcie");
 diff --git a/drivers/ata/ahci_salina_phy.c b/drivers/ata/ahci_salina_phy.c
 new file mode 100644
-index 000000000000..c5e85ae102ea
+index 000000000..c5e85ae10
 --- /dev/null
 +++ b/drivers/ata/ahci_salina_phy.c
 @@ -0,0 +1,183 @@
@@ -1041,7 +1041,7 @@ index 000000000000..c5e85ae102ea
 +}
 diff --git a/drivers/ata/ahci_salina_phy.h b/drivers/ata/ahci_salina_phy.h
 new file mode 100644
-index 000000000000..39cc76f39e06
+index 000000000..39cc76f39
 --- /dev/null
 +++ b/drivers/ata/ahci_salina_phy.h
 @@ -0,0 +1,45 @@
@@ -1090,8 +1090,83 @@ index 000000000000..39cc76f39e06
 +int salina_sata_phy_init(struct salina_sata_phy *p);
 +
 +#endif
+diff --git a/drivers/bluetooth/btusb.c b/drivers/bluetooth/btusb.c
+index 830fefb34..f13155f04 100644
+--- a/drivers/bluetooth/btusb.c
++++ b/drivers/bluetooth/btusb.c
+@@ -67,6 +67,10 @@ static struct usb_driver btusb_driver;
+ #define BTUSB_INTEL_NO_WBS_SUPPORT	BIT(26)
+ #define BTUSB_ACTIONS_SEMI		BIT(27)
+ #define BTUSB_BARROT			BIT(28)
++#define BTUSB_IFNUM_0                  BIT(29)
++#define BTUSB_BROKEN_LE_DEFAULT_PHY    BIT(30)
++#define BTUSB_BROKEN_READ_LOCAL_NAME   BIT(31)
++#define BTUSB_NO_AUTOSUSPEND   		BIT(32)
+ 
+ static const struct usb_device_id btusb_table[] = {
+ 	/* Generic Bluetooth USB device */
+@@ -172,6 +176,14 @@ static const struct usb_device_id btusb_table[] = {
+ 	{ USB_DEVICE(0x8087, 0x0a5a),
+ 	  .driver_info = BTUSB_INTEL_BOOT | BTUSB_BROKEN_ISOC },
+ 
++       /* PS5 IW620 Bluetooth device */
++	{ USB_DEVICE(0x1286, 0x2059),
++	  .driver_info = BTUSB_MARVELL |
++					 BTUSB_IFNUM_0 |
++					 BTUSB_BROKEN_LE_DEFAULT_PHY |
++					 BTUSB_BROKEN_READ_LOCAL_NAME |
++					 BTUSB_NO_AUTOSUSPEND },
++
+ 	{ }	/* Terminating entry */
+ };
+ 
+@@ -472,6 +484,11 @@ static const struct usb_device_id quirks_table[] = {
+ 	{ USB_DEVICE(0x1286, 0x2044), .driver_info = BTUSB_MARVELL },
+ 	{ USB_DEVICE(0x1286, 0x2046), .driver_info = BTUSB_MARVELL },
+ 	{ USB_DEVICE(0x1286, 0x204e), .driver_info = BTUSB_MARVELL },
++	{ USB_DEVICE(0x1286, 0x2059), .driver_info = BTUSB_MARVELL |
++												 BTUSB_IFNUM_0 |
++											 	 BTUSB_BROKEN_LE_DEFAULT_PHY |
++											 	 BTUSB_BROKEN_READ_LOCAL_NAME |
++											 	 BTUSB_NO_AUTOSUSPEND },
+ 
+ 	/* Intel Bluetooth devices */
+ 	{ USB_DEVICE(0x8087, 0x0025), .driver_info = BTUSB_INTEL_COMBINED },
+@@ -4055,6 +4072,10 @@ static int btusb_probe(struct usb_interface *intf,
+ 	    (intf->cur_altsetting->desc.bInterfaceNumber != 2))
+ 		return -ENODEV;
+ 
++	if ((id->driver_info & BTUSB_IFNUM_0) &&
++		intf->cur_altsetting->desc.bInterfaceNumber != 0)
++		return -ENODEV;
++
+ 	ifnum_base = intf->cur_altsetting->desc.bInterfaceNumber;
+ 
+ 	if (!id->driver_info) {
+@@ -4344,6 +4365,12 @@ static int btusb_probe(struct usb_interface *intf,
+ 	if (id->driver_info & BTUSB_INVALID_LE_STATES)
+ 		hci_set_quirk(hdev, HCI_QUIRK_BROKEN_LE_STATES);
+ 
++	if (id->driver_info & BTUSB_BROKEN_LE_DEFAULT_PHY)
++		hci_set_quirk(hdev, HCI_QUIRK_BROKEN_SET_DEFAULT_PHY);
++
++	if (id->driver_info & BTUSB_BROKEN_READ_LOCAL_NAME)
++		hci_set_quirk(hdev, HCI_QUIRK_BROKEN_READ_LOCAL_NAME);
++
+ 	if (id->driver_info & BTUSB_DIGIANSWER) {
+ 		data->cmdreq_type = USB_TYPE_VENDOR;
+ 		hci_set_quirk(hdev, HCI_QUIRK_RESET_ON_CLOSE);
+@@ -4400,7 +4427,7 @@ static int btusb_probe(struct usb_interface *intf,
+ 			data->diag = NULL;
+ 	}
+ 
+-	if (enable_autosuspend)
++	if (enable_autosuspend && !(id->driver_info & BTUSB_NO_AUTOSUSPEND))
+ 		usb_enable_autosuspend(data->udev);
+ 
+ 	data->poll_sync = enable_poll_sync;
 diff --git a/drivers/firmware/dmi-id.c b/drivers/firmware/dmi-id.c
-index 477a37e2ef80..e1af70946c89 100644
+index 477a37e2e..e1af70946 100644
 --- a/drivers/firmware/dmi-id.c
 +++ b/drivers/firmware/dmi-id.c
 @@ -228,8 +228,16 @@ static int __init dmi_id_init(void)
@@ -1112,7 +1187,7 @@ index 477a37e2ef80..e1af70946c89 100644
  	dmi_id_init_attr_table();
  
 diff --git a/drivers/firmware/dmi_scan.c b/drivers/firmware/dmi_scan.c
-index a3f7dabd4955..77f616a11b1c 100644
+index a3f7dabd4..77f616a11 100644
 --- a/drivers/firmware/dmi_scan.c
 +++ b/drivers/firmware/dmi_scan.c
 @@ -957,6 +957,14 @@ const char *dmi_get_system_info(int field)
@@ -1131,7 +1206,7 @@ index a3f7dabd4955..77f616a11b1c 100644
   * dmi_name_in_serial - Check if string is in the DMI product serial information
   * @str: string to check for
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index fd50da4c7b18..caf9cce37100 100644
+index fd50da4c7..caf9cce37 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
 @@ -270,6 +270,10 @@ extern int amdgpu_user_queue;
@@ -1146,7 +1221,7 @@ index fd50da4c7b18..caf9cce37100 100644
  #define AMDGPU_SG_THRESHOLD			(256*1024*1024)
  #define AMDGPU_WAIT_IDLE_TIMEOUT_IN_MS	        3000
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c
-index 35d04e69aec0..314ceaaaab9f 100644
+index 35d04e69a..314ceaaaa 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c
 @@ -221,8 +221,14 @@ static bool amdgpu_read_bios_from_rom(struct amdgpu_device *adev)
@@ -1181,7 +1256,7 @@ index 35d04e69aec0..314ceaaaab9f 100644
  	if (amdgpu_read_platform_bios(adev)) {
  		dev_info(adev->dev, "Fetched VBIOS from platform\n");
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index feab90e3efd1..4ebde822fca2 100644
+index feab90e3e..4ebde822f 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
 @@ -1814,6 +1814,26 @@ static int amdgpu_device_parse_gpu_info_fw(struct amdgpu_device *adev)
@@ -1212,7 +1287,7 @@ index feab90e3efd1..4ebde822fca2 100644
  		break;
  	}
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
-index 80efeca0ab73..e0683340ff12 100644
+index 80efeca0a..e0683340f 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
 @@ -3018,6 +3018,9 @@ int amdgpu_discovery_set_ip_blocks(struct amdgpu_device *adev)
@@ -1226,7 +1301,7 @@ index 80efeca0ab73..e0683340ff12 100644
  		break;
  	default:
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 60debd543e44..3af3b36f4b60 100644
+index 60debd543..3af3b36f4 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
 @@ -41,6 +41,10 @@
@@ -1274,7 +1349,7 @@ index 60debd543e44..3af3b36f4b60 100644
  	    (pdev->class >> 8) == PCI_CLASS_DISPLAY_OTHER) {
  		if (drm_firmware_drivers_only() && amdgpu_modeset == -1)
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
-index b8ca876694ff..02c04136f293 100644
+index b8ca87669..02c04136f 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
 @@ -2434,6 +2434,11 @@ void amdgpu_gfx_profile_ring_begin_use(struct amdgpu_ring *ring)
@@ -1302,7 +1377,7 @@ index b8ca876694ff..02c04136f293 100644
  		return;
  
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.c
-index 321310ba2c08..764da52902ac 100644
+index 321310ba2..764da5290 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.c
 @@ -210,6 +210,9 @@ int amdgpu_sdma_init_microcode(struct amdgpu_device *adev,
@@ -1328,7 +1403,7 @@ index 321310ba2c08..764da52902ac 100644
  	header = (const struct common_firmware_header *)
  		adev->sdma.instance[instance].fw->data;
 diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-index 8b60299b73ef..7ecf928cae8e 100644
+index 8b60299b7..7ecf928ca 100644
 --- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
 +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
 @@ -4202,6 +4202,14 @@ static void gfx_v10_0_check_gfxoff_flag(struct amdgpu_device *adev)
@@ -1473,7 +1548,7 @@ index 8b60299b73ef..7ecf928cae8e 100644
  		for (j = 0; j < adev->gfx.config.max_sh_per_se; j++) {
  			bitmap = i * adev->gfx.config.max_sh_per_se + j;
 diff --git a/drivers/gpu/drm/amd/amdgpu/nv.c b/drivers/gpu/drm/amd/amdgpu/nv.c
-index 7ce1a1b95606..0bef516616ee 100644
+index 7ce1a1b95..0bef51661 100644
 --- a/drivers/gpu/drm/amd/amdgpu/nv.c
 +++ b/drivers/gpu/drm/amd/amdgpu/nv.c
 @@ -862,6 +862,10 @@ static int nv_common_early_init(struct amdgpu_ip_block *ip_block)
@@ -1488,7 +1563,7 @@ index 7ce1a1b95606..0bef516616ee 100644
  	case IP_VERSION(10, 3, 6):
  		adev->cg_flags = AMD_CG_SUPPORT_GFX_MGCG |
 diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
-index 52f4e9e099cb..6e4ff7444536 100644
+index 52f4e9e09..6e4ff7444 100644
 --- a/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
 +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
 @@ -1368,6 +1368,12 @@ static int sdma_v5_0_early_init(struct amdgpu_ip_block *ip_block)
@@ -1505,7 +1580,7 @@ index 52f4e9e099cb..6e4ff7444536 100644
  	if (r)
  		return r;
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index f8c13bad4ac2..1a9cccc5fa5c 100644
+index f8c13bad4..1a9cccc5f 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 @@ -80,6 +80,10 @@
@@ -1632,7 +1707,7 @@ index f8c13bad4ac2..1a9cccc5fa5c 100644
  
  	/* Handle connector state changes */
 diff --git a/drivers/gpu/drm/amd/display/dc/bios/command_table2.c b/drivers/gpu/drm/amd/display/dc/bios/command_table2.c
-index 17ef515c6c69..8b9c1f6509fd 100644
+index 17ef515c6..8b9c1f650 100644
 --- a/drivers/gpu/drm/amd/display/dc/bios/command_table2.c
 +++ b/drivers/gpu/drm/amd/display/dc/bios/command_table2.c
 @@ -40,6 +40,10 @@
@@ -1677,7 +1752,7 @@ index 17ef515c6c69..8b9c1f6509fd 100644
  	case 7:
  		bp->cmd_tbl.transmitter_control = transmitter_control_v1_7;
 diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn201/dcn201_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn201/dcn201_clk_mgr.c
-index 76c612ecfe3c..953cd538402b 100644
+index 76c612ecf..953cd5384 100644
 --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn201/dcn201_clk_mgr.c
 +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn201/dcn201_clk_mgr.c
 @@ -214,4 +214,8 @@ void dcn201_clk_mgr_construct(struct dc_context *ctx,
@@ -1690,7 +1765,7 @@ index 76c612ecfe3c..953cd538402b 100644
 +#endif
  }
 diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-index 05991a10f8bf..777593dddd56 100644
+index 05991a10f..777593ddd 100644
 --- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
 +++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
 @@ -205,6 +205,7 @@ enum dce_version resource_parse_asic_id(struct hw_asic_id asic_id)
@@ -1702,7 +1777,7 @@ index 05991a10f8bf..777593dddd56 100644
  			dc_version = DCN_VERSION_2_01;
  			break;
 diff --git a/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_link_encoder.c b/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_link_encoder.c
-index 9459e8f28338..063e4a4eefdd 100644
+index 9459e8f28..063e4a4ee 100644
 --- a/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_link_encoder.c
 +++ b/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_link_encoder.c
 @@ -98,8 +98,11 @@ static const struct link_encoder_funcs dcn201_link_enc_funcs = {
@@ -1718,7 +1793,7 @@ index 9459e8f28338..063e4a4eefdd 100644
  	.fec_is_active = enc2_fec_is_active,
  	.is_in_alt_mode = dcn201_link_encoder_is_in_alt_mode,
 diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
-index 782a45caa13d..444259795140 100644
+index 782a45caa..444259795 100644
 --- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
 +++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
 @@ -1018,6 +1018,12 @@ bool link_decide_link_settings(struct dc_stream_state *stream,
@@ -1752,7 +1827,7 @@ index 782a45caa13d..444259795140 100644
  							WPP_BIT_FLAG_DC_DETECTION_DP_CAPS,
  							"result=%u link_index=%u enum dce_version=%d DPCD=0x%04X min_hblank=%u branch_dev_id=0x%x branch_dev_name='%c%c%c%c%c%c'",
 diff --git a/drivers/gpu/drm/amd/display/include/dal_asic_id.h b/drivers/gpu/drm/amd/display/include/dal_asic_id.h
-index 92510af1bd65..85c9e587834d 100644
+index 92510af1b..85c9e5878 100644
 --- a/drivers/gpu/drm/amd/display/include/dal_asic_id.h
 +++ b/drivers/gpu/drm/amd/display/include/dal_asic_id.h
 @@ -217,6 +217,7 @@ enum {
@@ -1764,7 +1839,7 @@ index 92510af1bd65..85c9e587834d 100644
  #define FAMILY_VGH 144
  #define DEVICE_ID_VGH_163F 0x163F
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 404208bf23a6..85718d593c42 100644
+index 404208bf2..85718d593 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
 @@ -2242,6 +2242,10 @@ static void connector_bad_edid(struct drm_connector *connector,
@@ -1791,7 +1866,7 @@ index 404208bf23a6..85718d593c42 100644
  }
  
 diff --git a/drivers/hwmon/k10temp.c b/drivers/hwmon/k10temp.c
-index a5d8f45b7881..3c7b76af13e4 100644
+index a5d8f45b7..3c7b76af1 100644
 --- a/drivers/hwmon/k10temp.c
 +++ b/drivers/hwmon/k10temp.c
 @@ -476,6 +476,7 @@ static int k10temp_probe(struct pci_dev *pdev, const struct pci_device_id *id)
@@ -1803,7 +1878,7 @@ index a5d8f45b7881..3c7b76af13e4 100644
  		case 0x68:	/* Lucienne */
  		case 0x71:	/* Zen2 */
 diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-index 3bdb380d23e9..e25db11bb1e5 100644
+index 3bdb380d2..e25db11bb 100644
 --- a/drivers/iommu/amd/init.c
 +++ b/drivers/iommu/amd/init.c
 @@ -3107,6 +3107,8 @@ static void __init free_iommu_resources(void)
@@ -1837,7 +1912,7 @@ index 3bdb380d23e9..e25db11bb1e5 100644
  	if (amd_iommu_irq_remap) {
  		struct amd_iommu_pci_seg *pci_seg;
 diff --git a/drivers/net/phy/Kconfig b/drivers/net/phy/Kconfig
-index b5ee338b620d..5e3b12332ef0 100644
+index b5ee338b6..5e3b12332 100644
 --- a/drivers/net/phy/Kconfig
 +++ b/drivers/net/phy/Kconfig
 @@ -465,3 +465,4 @@ config XILINX_GMII2RGMII
@@ -1846,7 +1921,7 @@ index b5ee338b620d..5e3b12332ef0 100644
  endif # PHYLIB
 +source "drivers/net/phy/mts/Kconfig"
 diff --git a/drivers/net/phy/Makefile b/drivers/net/phy/Makefile
-index 05e4878af27a..3a61917ba549 100644
+index 05e4878af..3a61917ba 100644
 --- a/drivers/net/phy/Makefile
 +++ b/drivers/net/phy/Makefile
 @@ -71,6 +71,7 @@ obj-$(CONFIG_MARVELL_88X2222_PHY)	+= marvell-88x2222.o
@@ -1859,7 +1934,7 @@ index 05e4878af27a..3a61917ba549 100644
  obj-$(CONFIG_MICROCHIP_PHY)	+= microchip.o
 diff --git a/drivers/net/phy/mts/Kconfig b/drivers/net/phy/mts/Kconfig
 new file mode 100644
-index 000000000000..94cb839814cb
+index 000000000..94cb83981
 --- /dev/null
 +++ b/drivers/net/phy/mts/Kconfig
 @@ -0,0 +1,10 @@
@@ -1875,7 +1950,7 @@ index 000000000000..94cb839814cb
 +	  will be called mts.
 diff --git a/drivers/net/phy/mts/Makefile b/drivers/net/phy/mts/Makefile
 new file mode 100644
-index 000000000000..e01771be845b
+index 000000000..e01771be8
 --- /dev/null
 +++ b/drivers/net/phy/mts/Makefile
 @@ -0,0 +1,3 @@
@@ -1884,7 +1959,7 @@ index 000000000000..e01771be845b
 +mts-y := mts_main.o mts_phy.o
 diff --git a/drivers/net/phy/mts/mts.h b/drivers/net/phy/mts/mts.h
 new file mode 100644
-index 000000000000..a0e41029aea2
+index 000000000..a0e41029a
 --- /dev/null
 +++ b/drivers/net/phy/mts/mts.h
 @@ -0,0 +1,186 @@
@@ -2076,7 +2151,7 @@ index 000000000000..a0e41029aea2
 +#endif /* _MTS_H */
 diff --git a/drivers/net/phy/mts/mts_main.c b/drivers/net/phy/mts/mts_main.c
 new file mode 100644
-index 000000000000..c193cb2d1bd4
+index 000000000..c193cb2d1
 --- /dev/null
 +++ b/drivers/net/phy/mts/mts_main.c
 @@ -0,0 +1,823 @@
@@ -2905,7 +2980,7 @@ index 000000000000..c193cb2d1bd4
 +MODULE_DESCRIPTION("PlayStation 5 Gigabit Ethernet driver");
 diff --git a/drivers/net/phy/mts/mts_phy.c b/drivers/net/phy/mts/mts_phy.c
 new file mode 100644
-index 000000000000..91fedcca4589
+index 000000000..91fedcca4
 --- /dev/null
 +++ b/drivers/net/phy/mts/mts_phy.c
 @@ -0,0 +1,404 @@
@@ -3314,7 +3389,7 @@ index 000000000000..91fedcca4589
 +	return 0;
 +}
 diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-index b63cd0c310bc..495b2714838b 100644
+index b63cd0c31..495b27148 100644
 --- a/drivers/pci/probe.c
 +++ b/drivers/pci/probe.c
 @@ -2806,6 +2806,14 @@ static int next_ari_fn(struct pci_bus *bus, struct pci_dev *dev, int fn)
@@ -3334,14 +3409,14 @@ index b63cd0c310bc..495b2714838b 100644
  
 diff --git a/drivers/ps5/Makefile b/drivers/ps5/Makefile
 new file mode 100644
-index 000000000000..36a3f5261a26
+index 000000000..36a3f5261
 --- /dev/null
 +++ b/drivers/ps5/Makefile
 @@ -0,0 +1 @@
 +obj-y += spcie.o tpcie.o hdmi.o mp1.o buzzer.o svm.o vmenter.o
 diff --git a/drivers/ps5/autoservo_param.h b/drivers/ps5/autoservo_param.h
 new file mode 100644
-index 000000000000..d2c25e461bf7
+index 000000000..d2c25e461
 --- /dev/null
 +++ b/drivers/ps5/autoservo_param.h
 @@ -0,0 +1,1902 @@
@@ -5249,7 +5324,7 @@ index 000000000000..d2c25e461bf7
 +#endif /* _AUTOSERVO_PARAM_H */
 diff --git a/drivers/ps5/buzzer.c b/drivers/ps5/buzzer.c
 new file mode 100644
-index 000000000000..f48ad6f92534
+index 000000000..f48ad6f92
 --- /dev/null
 +++ b/drivers/ps5/buzzer.c
 @@ -0,0 +1,291 @@
@@ -5546,7 +5621,7 @@ index 000000000000..f48ad6f92534
 +MODULE_LICENSE("GPL");
 diff --git a/drivers/ps5/hdmi.c b/drivers/ps5/hdmi.c
 new file mode 100644
-index 000000000000..8f094490d677
+index 000000000..8f094490d
 --- /dev/null
 +++ b/drivers/ps5/hdmi.c
 @@ -0,0 +1,1237 @@
@@ -6789,7 +6864,7 @@ index 000000000000..8f094490d677
 +EXPORT_SYMBOL(hdmi_notification_handler);
 diff --git a/drivers/ps5/mp1.c b/drivers/ps5/mp1.c
 new file mode 100644
-index 000000000000..4af890c842a7
+index 000000000..4af890c84
 --- /dev/null
 +++ b/drivers/ps5/mp1.c
 @@ -0,0 +1,488 @@
@@ -7283,7 +7358,7 @@ index 000000000000..4af890c842a7
 +MODULE_LICENSE("GPL");
 diff --git a/drivers/ps5/spcie.c b/drivers/ps5/spcie.c
 new file mode 100644
-index 000000000000..e02c074ee0b1
+index 000000000..e02c074ee
 --- /dev/null
 +++ b/drivers/ps5/spcie.c
 @@ -0,0 +1,1149 @@
@@ -8438,7 +8513,7 @@ index 000000000000..e02c074ee0b1
 +MODULE_LICENSE("GPL");
 diff --git a/drivers/ps5/svm.c b/drivers/ps5/svm.c
 new file mode 100644
-index 000000000000..3fd58e9a6609
+index 000000000..3fd58e9a6
 --- /dev/null
 +++ b/drivers/ps5/svm.c
 @@ -0,0 +1,169 @@
@@ -8613,7 +8688,7 @@ index 000000000000..3fd58e9a6609
 +EXPORT_SYMBOL(svm_execute_guest);
 diff --git a/drivers/ps5/tpcie.c b/drivers/ps5/tpcie.c
 new file mode 100644
-index 000000000000..23de43ea4b00
+index 000000000..23de43ea4
 --- /dev/null
 +++ b/drivers/ps5/tpcie.c
 @@ -0,0 +1,303 @@
@@ -8922,7 +8997,7 @@ index 000000000000..23de43ea4b00
 +MODULE_LICENSE("GPL");
 diff --git a/drivers/ps5/vmenter.S b/drivers/ps5/vmenter.S
 new file mode 100644
-index 000000000000..f5348c0d7e82
+index 000000000..f5348c0d7
 --- /dev/null
 +++ b/drivers/ps5/vmenter.S
 @@ -0,0 +1,30 @@
@@ -8956,8 +9031,725 @@ index 000000000000..f5348c0d7e82
 +	pop %_ASM_BP
 +	RET
 +SYM_FUNC_END(svm_run_guest)
+diff --git a/drivers/usb/host/Makefile b/drivers/usb/host/Makefile
+index a07e7ba9c..4c020957b 100644
+--- a/drivers/usb/host/Makefile
++++ b/drivers/usb/host/Makefile
+@@ -71,6 +71,7 @@ obj-$(CONFIG_USB_UHCI_HCD)	+= uhci-hcd.o
+ obj-$(CONFIG_USB_FHCI_HCD)	+= fhci.o
+ obj-$(CONFIG_USB_XHCI_HCD)	+= xhci-hcd.o
+ obj-$(CONFIG_USB_XHCI_PCI)	+= xhci-pci.o
++obj-$(CONFIG_USB_XHCI_PCI)  += xhci-ps5.o
+ obj-$(CONFIG_USB_XHCI_PCI_RENESAS)	+= xhci-pci-renesas.o
+ obj-$(CONFIG_USB_XHCI_PLATFORM) += xhci-plat-hcd.o
+ obj-$(CONFIG_USB_XHCI_HISTB)	+= xhci-histb.o
+diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+index 585b2f311..16d5e2178 100644
+--- a/drivers/usb/host/xhci-pci.c
++++ b/drivers/usb/host/xhci-pci.c
+@@ -18,6 +18,7 @@
+ #include "xhci.h"
+ #include "xhci-trace.h"
+ #include "xhci-pci.h"
++#include "xhci-ps5.h"
+ 
+ #define SSIC_PORT_NUM		2
+ #define SSIC_PORT_CFG2		0x880c
+@@ -94,6 +95,9 @@
+ #define PCI_DEVICE_ID_ASMEDIA_3042_XHCI			0x3042
+ #define PCI_DEVICE_ID_ASMEDIA_3242_XHCI			0x3242
+ 
++#define PCI_VENDOR_ID_SONY						0x104d
++#define PCI_DEVICE_ID_PS5_SALINA_XHCI			0x9108
++
+ static const char hcd_name[] = "xhci_hcd";
+ 
+ static struct hc_driver __read_mostly xhci_pci_hc_driver;
+@@ -511,6 +515,13 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
+ 	if (xhci->hci_version >= 0x120)
+ 		xhci->quirks |= XHCI_DEFAULT_PM_RUNTIME_ALLOW;
+ 
++	if (pdev->vendor == PCI_VENDOR_ID_SONY &&
++	    pdev->device == PCI_DEVICE_ID_PS5_SALINA_XHCI) {
++		xhci_dbg_trace(xhci, trace_xhci_dbg_init, "%s detected Salina USB PHY setting quirk", __func__);
++		xhci->quirks |= XHCI_PS5_SALINA_PHY;
++		xhci->quirks |= XHCI_WRITE_64_HI_LO;
++	}
++
+ 	if (xhci->quirks & XHCI_RESET_ON_RESUME)
+ 		xhci_dbg_trace(xhci, trace_xhci_dbg_quirks,
+ 				"QUIRK: Resetting on resume");
+@@ -575,6 +586,13 @@ static int xhci_pci_setup(struct usb_hcd *hcd)
+ 	/* imod_interval is the interrupt moderation value in nanoseconds. */
+ 	xhci->imod_interval = 40000;
+ 
++    if (pdev->vendor == PCI_VENDOR_ID_SONY &&
++		pdev->device == PCI_DEVICE_ID_PS5_SALINA_XHCI) {
++		retval = xhci_salina_init(pdev);
++		if (retval)
++			return retval;
++    }
++
+ 	retval = xhci_gen_setup(hcd, xhci_pci_quirks);
+ 	if (retval)
+ 		return retval;
+@@ -713,6 +731,11 @@ void xhci_pci_remove(struct pci_dev *dev)
+ 	xhci = hcd_to_xhci(pci_get_drvdata(dev));
+ 	set_power_d3 = xhci->quirks & XHCI_SPURIOUS_WAKEUP;
+ 
++	if(xhci->quirks & XHCI_PS5_SALINA_PHY) {
++		salina_stop_xhci_poller();
++		xhci_salina_exit();
++	}
++
+ 	xhci->xhc_state |= XHCI_STATE_REMOVING;
+ 
+ 	if (pci_choose_state(dev, PMSG_SUSPEND) == PCI_D0)
+@@ -945,6 +968,7 @@ static const struct pci_device_id pci_ids[] = {
+ 	/* handle any USB 3.0 xHCI controller */
+ 	{ PCI_DEVICE_CLASS(PCI_CLASS_SERIAL_USB_XHCI, ~0),
+ 	},
++	{ PCI_DEVICE(PCI_VENDOR_ID_SONY, PCI_DEVICE_ID_PS5_SALINA_XHCI) },
+ 	{ /* end: all zeroes */ }
+ };
+ MODULE_DEVICE_TABLE(pci, pci_ids);
+diff --git a/drivers/usb/host/xhci-ps5.c b/drivers/usb/host/xhci-ps5.c
+new file mode 100644
+index 000000000..6dc7014de
+--- /dev/null
++++ b/drivers/usb/host/xhci-ps5.c
+@@ -0,0 +1,500 @@
++/*
++* Playstation 5 Salina XHCI driver helper
++* Author: https://github.com/c0w-ar
++*/
++
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++
++#include <linux/pci.h>
++#include <linux/types.h>
++#include <linux/io.h>
++#include <linux/usb.h>
++#include <linux/usb/hcd.h>
++#include <linux/workqueue.h>
++#include <asm/delay.h>
++#include "xhci-ps5.h"
++#include "xhci.h"
++#include "xhci-trace.h"
++#include "xhci-ring.h"
++
++/* External SPCIE driver functions */
++extern bool spcie_is_initialized(void);
++extern u32 spcie_get_chip_id(void);
++extern u32 spcie_bar2_180000_read(u32 reg);
++extern void spcie_bar2_180000_write(u32 reg, u32 val);
++extern u32 spcie_pervasive0_4000_read(u32 reg);
++
++#define SALINA_XHCI_BAR_SIZE            0x140000
++#define SALINA_POLL_INTERVAL_MS         20
++
++struct salina_xhci_dev {
++	void __iomem *spcie_bar2;
++	void __iomem *spcie_pervasive0;
++    void __iomem *xhci_bar;
++    u32 revision;
++};
++static struct salina_xhci_dev salina_xhci;
++
++struct salina_xhci_poller {
++    struct xhci_hcd *xhci;
++    struct delayed_work work;
++    bool running;
++};
++static struct salina_xhci_poller salina_poll;
++
++static int dev_ioremap_bar(struct pci_dev *dev, int bar_nr, resource_size_t min_size, void __iomem **bar) {
++    resource_size_t start = pci_resource_start(dev, bar_nr);
++    resource_size_t len = pci_resource_len(dev, bar_nr);
++
++    if (start == 0) {
++        return -EINVAL;
++    }
++
++    if (len < min_size) {
++        return -ENODEV;
++    }
++
++    *bar = ioremap(start, min_size);
++    if (!*bar) {
++        pr_err("Could not ioremap memory\n");
++        release_mem_region(start, min_size);
++        return -ENOMEM;
++    }
++
++    return 0;
++}
++
++static void unmap_bar(void) {
++    if(salina_xhci.xhci_bar) {
++        iounmap(salina_xhci.xhci_bar);
++        salina_xhci.xhci_bar = NULL;
++    }
++}
++
++static int init_bar(struct pci_dev *own_pdev) {
++    int ret = dev_ioremap_bar(own_pdev, 0, SALINA_XHCI_BAR_SIZE, &salina_xhci.xhci_bar);
++    if (ret)
++        goto unmap;
++    return 0;
++
++unmap:
++    unmap_bar();
++    return ret;
++}
++
++static u32 phys_readl(u64 addr) {
++    void __iomem *ptr = ioremap(addr, 4);
++    if (!ptr) {
++        pr_err("Could not ioremap memory\n");
++        return 0;
++    }
++    u32 val = readl(ptr);
++    iounmap(ptr);
++    return val;
++}
++
++static u8 usb_get_length(u8 usb_n) {
++    return (u8)((phys_readl(0x9bf44) >> (usb_n*8))&0x1f);
++}
++
++inline void spcie_phy_bit_set(u32 reg, u32 bit) {
++    u32 val_old = spcie_bar2_180000_read(reg);
++    spcie_bar2_180000_write(reg, val_old | BIT(bit));
++}
++
++inline void spcie_phy_bit_unset(u32 reg, u32 bit) {
++    u32 val_old = spcie_bar2_180000_read(reg);
++    spcie_bar2_180000_write(reg, val_old & ~BIT(bit));
++}
++
++inline u32 spcie_config_read(u32 reg) {
++    return spcie_pervasive0_4000_read(reg);
++}
++
++inline u32 xhci_read(u64 offset, u32 reg) {
++    return readl(salina_xhci.xhci_bar + offset + reg);
++}
++
++inline void xhci_write(u64 offset, u32 reg, u32 val) {
++    writel(val, salina_xhci.xhci_bar + offset + reg);
++}
++
++inline void xhci_or(u64 offset, u32 reg, u32 val) {
++    u32 val_old = readl(salina_xhci.xhci_bar + offset + reg);
++    writel(val_old | val, salina_xhci.xhci_bar + offset + reg);
++}
++
++inline void xhci_and(u64 offset, u32 reg, u32 val) {
++    u32 val_old = readl(salina_xhci.xhci_bar + offset + reg);
++    writel(val_old & val, salina_xhci.xhci_bar + offset + reg);
++}
++
++inline void xhci_bit_set(u64 offset, u32 reg, u32 bit) {
++    u32 val_old = readl(salina_xhci.xhci_bar + offset + reg);
++    writel(val_old | BIT(bit), salina_xhci.xhci_bar + offset + reg);
++}
++
++inline void xhci_bit_unset(u64 offset, u32 reg, u32 bit) {
++    u32 val_old = readl(salina_xhci.xhci_bar + offset + reg);
++    writel(val_old & ~BIT(bit), salina_xhci.xhci_bar + offset + reg);
++}
++
++inline void xhci_bit_toggle(u64 offset, u32 reg, u32 bit) {
++    xhci_bit_set(offset, reg, bit);
++    xhci_bit_unset(offset, reg, bit);
++}
++
++static inline u64 usb_phy_offset (u8 usb_n) {
++    switch (usb_n) {
++        case 0: return 0x120000;
++        case 1: return 0x124000;
++        case 2: return 0x128000;
++        default: return 0x120000;
++    }
++}
++
++static inline u32 usb_trace_trim(u8 usb_n, u32 usb_length) {
++    if (usb_length < 3)
++        return 8;
++    else if (usb_length < 6)
++        return 7;
++    else if (usb_length < 8)
++        return 6;
++    else if (usb_length < 10)
++        return 5;
++    else if (usb_length < 13)
++        return 4;
++    else {
++        switch (usb_n) {
++            case 0: return 4;
++            case 1: return 6;
++            case 2: return 7;
++            default: return 4;
++        }
++    }
++}
++
++static void salina_usb_phy_config_step_1(u8 usb_n) {
++
++    u64 offset = usb_phy_offset(usb_n);
++    u32 val32;
++    u32 usb_efuse;
++    u32 usb_length;
++
++    val32 = spcie_config_read(0x6c);
++    if ((val32 >> 0x19 & val32 >> 0x11 & 1) == 0) {
++        printk("[USB%d] eFuse not blown for usb\n", usb_n);
++        usb_efuse = 0x98;
++    }
++    else {
++        usb_efuse = (spcie_config_read(0x44) >> (usb_n*5+0x10)) & 0x1f;
++    }
++
++	xhci_write(offset, 0x800, 0x480a);
++
++    xhci_write(offset, 0x814, 0x10a01000);
++
++    xhci_bit_unset(offset, 0x818, 23);
++
++    xhci_bit_set(offset, 0x800, 5);
++
++    xhci_bit_unset(offset, 0x868, 18);
++
++    xhci_and(offset, 0x804, 0xff07ffff);
++    xhci_or(offset, 0x804, usb_efuse << 0x13);
++
++    usb_length = usb_trace_trim(usb_n, usb_get_length(usb_n));
++
++    xhci_and(offset, 0x818, 0xffffff0f);
++    xhci_or(offset, 0x818, 0xa0);
++
++    xhci_and(offset, 0x818, 0xfffffff0);
++    xhci_or(offset, 0x818, usb_length);
++}
++
++static int salina_usb_phy_config_step_2(u8 usb_n) {
++
++    u64 offset = usb_phy_offset(usb_n);
++
++    xhci_bit_set(offset, 0x814, 15);
++
++    udelay(2);
++
++    xhci_bit_set(offset, 0x110, 8);
++
++    xhci_and(offset, 0x100, 0xff000000);
++    xhci_or(offset, 0x100, 0x400);
++
++    xhci_bit_set(offset, 0x100, 24);
++
++    int attemps = 100;
++    u32 measure;
++    do {
++        measure = xhci_read(offset, 0x10c);
++        udelay(2);
++        if (measure!=0) break;
++        attemps--;
++    } while(attemps!=0);
++
++    xhci_bit_unset(offset, 0x100, 24);
++
++    xhci_bit_unset(offset, 0x110, 8);
++
++    if (!measure) {
++        printk("Something went wrong while waiting for USB init\n");
++        return -1;
++    }
++
++    u32 calibration = (u32)((0xb9000 / (u64)measure) / 1000);
++
++    xhci_and(offset, 0x814, 0xffff8fff);
++    xhci_or(offset, 0x814, calibration<<12);
++
++    xhci_bit_unset(offset, 0x814, 15);
++
++    return 0;
++}
++
++static void salina_usb_phy_config_step_3(u8 usb_n) {
++    u32 offset = usb_phy_offset(usb_n);
++    xhci_bit_set(offset, 0x800, 0);
++    xhci_bit_unset(offset, 0x808, 17);
++    xhci_bit_set(offset, 0x880, 0);
++}
++
++static void salina_usb_phy_config_step_4(void) {
++    xhci_and(0, 0xc100, 0xfffffff0);
++    xhci_or(0, 0xc100, 0xe);
++    xhci_write(0, 0xc12c, 0x7fc0c010);
++    xhci_write(0, 0xc200, 0x1548);
++    if (salina_xhci.revision == 0x110000) {
++        xhci_write(0, 0xc204, 0x1548);
++        xhci_write(0, 0xc208, 0x1548);
++    }
++}
++
++static int xhci_salina_phy_init(void) {
++
++    spcie_phy_bit_set(0x24, 1);
++    spcie_phy_bit_set(0x24, 0);
++    spcie_phy_bit_unset(0x24, 1);
++
++    salina_usb_phy_config_step_1(0);
++    if (salina_xhci.revision == 0x110000) {
++        salina_usb_phy_config_step_1(1);
++        salina_usb_phy_config_step_1(2);
++    }
++
++    spcie_phy_bit_unset(0x24, 0);
++
++    udelay(2000);
++
++    if(salina_usb_phy_config_step_2(0)) return -1;
++    if (salina_xhci.revision == 0x110000) {
++        if(salina_usb_phy_config_step_2(1)) return -1;
++        if(salina_usb_phy_config_step_2(2)) return -1;
++    }
++
++    salina_usb_phy_config_step_3(0);
++    if (salina_xhci.revision == 0x110000) {
++        salina_usb_phy_config_step_3(1);
++        salina_usb_phy_config_step_3(2);
++    }
++
++    xhci_bit_unset(0x100000, 0x4, 0);
++
++    salina_usb_phy_config_step_4();
++
++    return 0;
++}
++
++int xhci_salina_init(struct pci_dev *pdev) {
++
++    int ret;
++
++	if (!spcie_is_initialized()) {
++		dev_warn(&pdev->dev, "spcie not initialized, deferring\n");
++		return -EPROBE_DEFER;
++	}
++
++    salina_xhci.revision = spcie_get_chip_id();
++    if (salina_xhci.revision!=0x110000 && salina_xhci.revision!=0x120000) {
++        dev_warn(&pdev->dev, "PS5 Salina revision unknown %08x\n", salina_xhci.revision);
++        return ENODEV;
++    }
++
++    ret = init_bar(pdev);
++    if (ret) {
++        pr_err("PS5 Salina could not map BAR\n");
++        return ret;
++    }
++
++    xhci_salina_phy_init();
++
++    dev_info(&pdev->dev, "PS5 Salina xHCI PHY initialized\n");
++    return 0;
++}
++
++int xhci_salina_reset(struct xhci_hcd *xhci, u64 timeout_us) {
++
++	u32 state;
++	int ret;
++
++    if (salina_xhci.revision == 0x110000) {
++        xhci_bit_unset(0x100000, 0x0, 2);
++    }
++
++	state = readl(&xhci->op_regs->status);
++
++	if (state == ~(u32)0) {
++		if (!(xhci->xhc_state & XHCI_STATE_DYING))
++			xhci_warn(xhci, "Host not accessible, reset failed.\n");
++		return -ENODEV;
++	}
++
++	if ((state & STS_HALT) == 0) {
++		xhci_warn(xhci, "Host controller not halted, aborting reset.\n");
++		return 0;
++	}
++
++	xhci_info(xhci, "// Reset the HC on custom Salina Reset");
++	writel(CMD_RESET, &xhci->op_regs->command);
++
++    udelay(1000);
++
++    ret = xhci_handshake(&xhci->op_regs->command, CMD_RESET, 0, timeout_us);
++	if (ret)
++		return ret;
++
++    ret = xhci_handshake(&xhci->op_regs->status, STS_CNR, 0, timeout_us);
++	if (ret)
++		return ret;
++
++    if (salina_xhci.revision == 0x110000) {
++        xhci_bit_toggle(0x100000, 0x0, 1);
++        xhci_bit_toggle(0x100000, 0x0, 17);
++        xhci_bit_toggle(0x100000, 0x0, 25);
++        usleep_range(30000, 30100);
++    }
++
++    xhci_bit_unset(0x100000, 0x0, 1);
++    usleep_range(20000, 20100);
++
++    if (salina_xhci.revision == 0x110000) {
++        xhci_bit_set(0x100000, 0x0, 2);
++        usleep_range(20000, 20100);
++    }
++
++    salina_usb_phy_config_step_4();
++
++    // Reset software state
++    xhci->usb2_rhub.bus_state.port_c_suspend = 0;
++	xhci->usb2_rhub.bus_state.suspended_ports = 0;
++	xhci->usb2_rhub.bus_state.resuming_ports = 0;
++	xhci->usb3_rhub.bus_state.port_c_suspend = 0;
++	xhci->usb3_rhub.bus_state.suspended_ports = 0;
++	xhci->usb3_rhub.bus_state.resuming_ports = 0;
++
++    return 0;
++}
++
++void xhci_salina_exit(void)
++{
++    unmap_bar();
++}
++
++static bool ring_has_event_pending(struct xhci_ring *ring)
++{
++	struct xhci_segment *seg;
++	u32 idx;
++	u32 ccs;
++
++	if (!ring || !ring->deq_seg || !ring->dequeue)
++		return false;
++
++	seg = ring->deq_seg;
++	idx = ring->dequeue - ring->deq_seg->trbs;
++	ccs = ring->cycle_state;
++
++	if (idx >= TRBS_PER_SEGMENT)
++		return false;
++
++	u32 trb_cycle = le32_to_cpu(seg->trbs[idx].generic.field[3]) & TRB_CYCLE;
++	return trb_cycle == ccs;
++}
++
++static void salina_xhci_poll_fn(struct work_struct *w)
++{
++    struct salina_xhci_poller *p =
++        container_of(w, struct salina_xhci_poller, work.work);
++    struct xhci_hcd *xhci = p->xhci;
++    struct xhci_ring *er;
++	unsigned long flags;
++
++    if (!p->running || !xhci)
++        return;
++
++    er = xhci->interrupters[0]->event_ring;
++    if (!er)
++        goto resched;
++
++    if (!spin_trylock_irqsave(&xhci->lock, flags)) {
++        printk(KERN_INFO "Salina poller: lock busy, rescheduling\n");
++        goto resched;
++    }
++
++    u32 status = readl(&xhci->op_regs->status);
++    if (status == ~(u32)0) {
++        xhci_hc_died(xhci);
++        goto unlock;
++    }
++
++    if (status & STS_HCE) {
++        xhci_warn(xhci, "WARNING: Host Controller Error\n");
++        xhci_halt(xhci);
++        goto unlock;
++    }
++
++    if (status & STS_FATAL) {
++        xhci_warn(xhci, "WARNING: Host System Error\n");
++        xhci_halt(xhci);
++        goto unlock;
++    }
++
++    if (ring_has_event_pending(er)) {
++        xhci_handle_events(xhci, xhci->interrupters[0], false);
++    }
++
++unlock:
++    spin_unlock_irqrestore(&xhci->lock, flags);
++
++resched:
++    schedule_delayed_work(&p->work,
++        msecs_to_jiffies(SALINA_POLL_INTERVAL_MS));
++}
++
++void salina_start_xhci_poller(struct xhci_hcd *xhci)
++{
++    if (salina_poll.running)
++		return;
++
++    memset(&salina_poll, 0, sizeof(salina_poll));
++    salina_poll.xhci = xhci;
++    salina_poll.running = true;
++
++    INIT_DELAYED_WORK(&salina_poll.work, salina_xhci_poll_fn);
++
++    schedule_delayed_work(&salina_poll.work,
++                  msecs_to_jiffies(SALINA_POLL_INTERVAL_MS));
++
++    xhci_info(xhci, "Salina: software IRQ poller enabled\n");
++}
++
++void salina_stop_xhci_poller(void)
++{
++    if (!salina_poll.running)
++		return;
++    cancel_delayed_work_sync(&salina_poll.work);
++    salina_poll.running = false;
++    salina_poll.xhci = NULL;
++}
+diff --git a/drivers/usb/host/xhci-ps5.h b/drivers/usb/host/xhci-ps5.h
+new file mode 100755
+index 000000000..90d41d3dc
+--- /dev/null
++++ b/drivers/usb/host/xhci-ps5.h
+@@ -0,0 +1,9 @@
++#include <linux/pci.h>
++#include "xhci.h"
++
++int xhci_salina_reset(struct xhci_hcd *xhci, u64 timeout_us);
++int xhci_salina_init(struct pci_dev *pdev);
++void xhci_salina_exit(void);
++
++void salina_start_xhci_poller(struct xhci_hcd *xhci);
++void salina_stop_xhci_poller(void);
+\ No newline at end of file
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index e47e644b2..774c4955b 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -59,6 +59,8 @@
+ #include <linux/dma-mapping.h>
+ #include "xhci.h"
+ #include "xhci-trace.h"
++#include "xhci-ring.h"
++#include "xhci-ps5.h"
+ 
+ static int queue_command(struct xhci_hcd *xhci, struct xhci_command *cmd,
+ 			 u32 field1, u32 field2,
+@@ -3083,12 +3085,14 @@ static void xhci_clear_interrupt_pending(struct xhci_interrupter *ir)
+  * Handle all OS-owned events on an interrupter event ring. It may drop
+  * and reaquire xhci->lock between event processing.
+  */
+-static int xhci_handle_events(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
++int xhci_handle_events(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
+ 			      bool skip_events)
+ {
+ 	int event_loop = 0;
+ 	int err = 0;
+ 	u64 temp;
++	int iters = 0;
++	const int max_iters = 32;
+ 
+ 	xhci_clear_interrupt_pending(ir);
+ 
+@@ -3131,11 +3135,27 @@ static int xhci_handle_events(struct xhci_hcd *xhci, struct xhci_interrupter *ir
+ 
+ 		if (err)
+ 			break;
++
++		if (xhci->quirks & XHCI_PS5_SALINA_PHY) {
++			if (++iters > max_iters) {
++	            xhci_warn(xhci,
++	                  "Salina: event ring appears stuck after %d TRBs\n",
++	                  iters);
++	            goto salina_stuck;
++	        }
++		}
+ 	}
+ 
+ 	xhci_update_erst_dequeue(xhci, ir, true);
+ 
+ 	return 0;
++
++salina_stuck:
++    /* mark host dying so we don't deadlock future URBs */
++    xhci->xhc_state |= XHCI_STATE_DYING;
++
++    xhci_update_erst_dequeue(xhci, ir, true);
++    return -EIO;
+ }
+ 
+ /*
+diff --git a/drivers/usb/host/xhci-ring.h b/drivers/usb/host/xhci-ring.h
+new file mode 100755
+index 000000000..193ac03a3
+--- /dev/null
++++ b/drivers/usb/host/xhci-ring.h
+@@ -0,0 +1,4 @@
++#include "xhci.h"
++
++dma_addr_t xhci_trb_virt_to_dma(struct xhci_segment *seg, union xhci_trb *trb);
++int xhci_handle_events(struct xhci_hcd *xhci, struct xhci_interrupter *ir, bool skip_events);
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index a54f5b57f..0d99186ec 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -26,6 +26,7 @@
+ #include "xhci-trace.h"
+ #include "xhci-debugfs.h"
+ #include "xhci-dbgcap.h"
++#include "xhci-ps5.h"
+ 
+ #define DRIVER_AUTHOR "Sarah Sharp"
+ #define DRIVER_DESC "'eXtensible' Host Controller (xHC) Driver"
+@@ -191,6 +192,10 @@ int xhci_reset(struct xhci_hcd *xhci, u64 timeout_us)
+ 	u32 state;
+ 	int ret;
+ 
++	if (xhci->quirks & XHCI_PS5_SALINA_PHY) {
++		return xhci_salina_reset(xhci, 5000);
++	}
++
+ 	state = readl(&xhci->op_regs->status);
+ 
+ 	if (state == ~(u32)0) {
+@@ -615,6 +620,10 @@ static int xhci_run_finished(struct xhci_hcd *xhci)
+ 
+ 	spin_unlock_irqrestore(&xhci->lock, flags);
+ 
++	if(xhci->quirks & XHCI_PS5_SALINA_PHY) {
++		salina_start_xhci_poller(xhci);
++	}
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index aeecd301f..e202fbdd2 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1645,6 +1645,7 @@ struct xhci_hcd {
+ #define XHCI_CDNS_SCTX_QUIRK	BIT_ULL(48)
+ #define XHCI_ETRON_HOST	BIT_ULL(49)
+ #define XHCI_LIMIT_ENDPOINT_INTERVAL_9 BIT_ULL(50)
++#define XHCI_PS5_SALINA_PHY BIT_ULL(51)
+ 
+ 	unsigned int		num_active_eps;
+ 	unsigned int		limit_active_eps;
 diff --git a/include/linux/dmi.h b/include/linux/dmi.h
-index c8700e6a694d..7d0afd378c4e 100644
+index c8700e6a6..7d0afd378 100644
 --- a/include/linux/dmi.h
 +++ b/include/linux/dmi.h
 @@ -120,6 +120,9 @@ extern struct kobject *dmi_kobj;
@@ -8972,7 +9764,7 @@ index c8700e6a694d..7d0afd378c4e 100644
  extern void dmi_setup(void);
 diff --git a/include/linux/ps5.h b/include/linux/ps5.h
 new file mode 100644
-index 000000000000..24adcd953ab3
+index 000000000..24adcd953
 --- /dev/null
 +++ b/include/linux/ps5.h
 @@ -0,0 +1,95 @@
@@ -9071,8 +9863,62 @@ index 000000000000..24adcd953ab3
 +u64 svm_execute_guest(void *guest_func, u64 a0, u64 a1, u64 a2, u64 a3);
 +
 +#endif /* _LINUX_PS5_H */
+diff --git a/include/net/bluetooth/hci.h b/include/net/bluetooth/hci.h
+index 572b1c620..b776491a1 100644
+--- a/include/net/bluetooth/hci.h
++++ b/include/net/bluetooth/hci.h
+@@ -309,6 +309,22 @@ enum {
+ 	 */
+ 	HCI_QUIRK_BROKEN_SET_RPA_TIMEOUT,
+ 
++	/* When this quirk is set, the HCI_OP_LE_SET_DEFAULT_PHY command is
++	* skipped during initialization. This is required for controllers
++	* which advertise the command but reject the default 1M PHY request.
++	*
++	* This quirk can be set before hci_register_dev is called.
++	*/
++	HCI_QUIRK_BROKEN_SET_DEFAULT_PHY,
++
++	/* When this quirk is set, the HCI_OP_READ_LOCAL_NAME command is
++	* skipped during initialization. This is required for controllers
++	* which become unstable when queried for the local name.
++	*
++	* This quirk can be set before hci_register_dev is called.
++	*/
++	HCI_QUIRK_BROKEN_READ_LOCAL_NAME,
++
+ 	/*
+ 	 * When this quirk is set, the HCI_OP_LE_EXT_CREATE_CONN command is
+ 	 * disabled. This is required for the Actions Semiconductor ATS2851
+diff --git a/net/bluetooth/hci_sync.c b/net/bluetooth/hci_sync.c
+index df23245d6..1248c3735 100644
+--- a/net/bluetooth/hci_sync.c
++++ b/net/bluetooth/hci_sync.c
+@@ -3787,6 +3787,9 @@ static int hci_read_dev_class_sync(struct hci_dev *hdev)
+ /* Read Local Name */
+ static int hci_read_local_name_sync(struct hci_dev *hdev)
+ {
++	if (hci_test_quirk(hdev, HCI_QUIRK_BROKEN_READ_LOCAL_NAME))
++		return 0;
++
+ 	return __hci_cmd_sync_status(hdev, HCI_OP_READ_LOCAL_NAME,
+ 				     0, NULL, HCI_CMD_TIMEOUT);
+ }
+@@ -4874,6 +4877,12 @@ static int hci_le_set_default_phy_sync(struct hci_dev *hdev)
+ {
+ 	struct hci_cp_le_set_default_phy cp;
+ 
++	if (hci_test_quirk(hdev, HCI_QUIRK_BROKEN_SET_DEFAULT_PHY)) {
++		hdev->le_tx_def_phys = HCI_LE_SET_PHY_1M;
++		hdev->le_rx_def_phys = HCI_LE_SET_PHY_1M;
++		return 0;
++	}
++
+ 	if (!(hdev->commands[35] & 0x20)) {
+ 		/* If the command is not supported it means only 1M PHY is
+ 		 * supported.
 diff --git a/scripts/setlocalversion b/scripts/setlocalversion
-index 28169d7e143b..44f516daa21d 100755
+index 28169d7e1..44f516daa 100755
 --- a/scripts/setlocalversion
 +++ b/scripts/setlocalversion
 @@ -61,6 +61,9 @@ scm_version()
@@ -9086,7 +9932,7 @@ index 28169d7e143b..44f516daa21d 100755
  	do
  		case "$1" in
 diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-index 4b03c64e72ab..4cb7d285ccd6 100644
+index 4b03c64e7..4cb7d285c 100644
 --- a/sound/hda/controllers/intel.c
 +++ b/sound/hda/controllers/intel.c
 @@ -2643,6 +2643,8 @@ static const struct pci_device_id azx_ids[] = {
